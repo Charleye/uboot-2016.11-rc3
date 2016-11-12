@@ -152,5 +152,6 @@ source "board/samsung/arndale/Kconfig"
 source "board/samsung/smdk5250/Kconfig"
 source "board/samsung/smdk5420/Kconfig"
 source "board/samsung/espresso7420/Kconfig"
+source "board/samsung/rp4412/Kconfig"
 
 endif
