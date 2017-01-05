@@ -1,0 +1,9 @@
+if TARGET_IBOX4418
+
+config  SYS_BOARD
+        default "ibox4418"
+
+config  SYS_CONFIG_NAME
+        default "ibox4418"
+
+endif

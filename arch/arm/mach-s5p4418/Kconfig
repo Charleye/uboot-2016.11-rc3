@@ -1,0 +1,8 @@
+if ARCH_S5P4418
+
+config TARGET_IBOX4418
+    bool "Ibox4418 board"
+
+source "board/ibox4418/Kconfig"
+
+endif

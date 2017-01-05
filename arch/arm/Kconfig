@@ -425,6 +425,10 @@ config ARCH_S5PC1XX
 	select DM_SERIAL
 	select DM_GPIO
 
+config ARCH_S5P4418
+    bool "S5P4418 SoC"
+    select CPU_V7
+
 config ARCH_HIGHBANK
 	bool "Calxeda Highbank"
 	select CPU_V7
@@ -934,6 +938,8 @@ source "arch/arm/cpu/armv8/zynqmp/Kconfig"
 source "arch/arm/cpu/armv8/Kconfig"
 
 source "arch/arm/imx-common/Kconfig"
+
+source "arch/arm/mach-s5p4418/Kconfig"
 
 source "board/bosch/shc/Kconfig"
 source "board/BuR/brxre1/Kconfig"
