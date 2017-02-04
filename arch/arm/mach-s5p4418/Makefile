@@ -5,5 +5,5 @@
 #
 
 obj-y	+= lowlevel_init.o
-obj-y	+= soc.o
+obj-y	+= cpu.o
 obj-y	+= timer.o

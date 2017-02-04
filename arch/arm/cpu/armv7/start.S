@@ -84,6 +84,7 @@ switch_to_hypervisor_ret:
 	bl	cpu_init_crit
 #endif
 #endif
+    bl led_on
 
 	bl	_main
 

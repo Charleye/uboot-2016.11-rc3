@@ -3,6 +3,9 @@ if ARCH_S5P4418
 config TARGET_IBOX4418
     bool "Ibox4418 board"
 
+config SYS_SOC
+    default "s5p4418"
+
 source "board/ibox4418/Kconfig"
 
 endif
