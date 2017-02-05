@@ -48,6 +48,8 @@
 #define CONFIG_SYS_BAUDRATE_TABLE   {9600, 19200, 38400, 57600, \
                                     115200, 230400}
 #define CONFIG_SYS_SERIAL0      0xC00A1000
+#define CONFIG_SYS_SERIAL1      0xC00A0000
 #define CONFIG_PL011_CLOCK      50000000    /* 50 MHZ */
-#define CONFIG_PL01x_PORTS      {(void*)CONFIG_SYS_SERIAL0}
+#define CONFIG_PL01x_PORTS      { (void*)CONFIG_SYS_SERIAL0, \
+                                  (void*)CONFIG_SYS_SERIAL1 }
 #endif

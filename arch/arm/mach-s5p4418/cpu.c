@@ -10,6 +10,22 @@
 #include <asm/arch/alive.h>
 #include <asm/arch/rtc.h>
 #include <asm/arch/tieoff.h>
+#include <asm/arch/mcus.h>
+
+/* MCU-S: Static Memory Configuration */
+static void cpu_bus_init (void)
+{
+    register volatile u32 val;
+
+    /* Configure Static #0 */
+    val = readl(&S5P4418_MCUS->MEMTIMEACS[0]);  /* set TACS to 0x00(1 cycle) */
+    val &= ~(0x0F);
+    writel(val, &S5P4418_MCUS->MEMTIMEACS[0]);
+
+    val = readl(&S5P4418_MCUS->MEMTIMECAH[0]);  /* set TCAH to 0x00(1 cycle) */
+    val &= ~(0x0F);
+    writel(val, &S5P4418_MCUS->MEMTIMECAH[0]);
+}
 
 int arch_cpu_init (void)
 {
@@ -29,6 +45,7 @@ int arch_cpu_init (void)
     val &= ~(3 << 3);
     writel(val, &S5P4418_TIEOFF->REG[32]);
 
+    cpu_bus_init();
     return 0;
 }
 

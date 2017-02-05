@@ -844,6 +844,11 @@ __weak int arch_cpu_init_dm(void)
 	return 0;
 }
 
+__weak int led_on(void)
+{
+    return 0;
+}
+
 static init_fnc_t init_sequence_f[] = {
 #ifdef CONFIG_SANDBOX
 	setup_ram_buf,
@@ -914,6 +919,7 @@ static init_fnc_t init_sequence_f[] = {
 #endif
 	display_options,	/* say that we are here */
 	display_text_info,	/* show debugging info if required */
+    led_on,
 #if defined(CONFIG_MPC8260)
 	prt_8260_rsr,
 	prt_8260_clks,
