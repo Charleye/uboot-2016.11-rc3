@@ -9,6 +9,4 @@ struct s5p4418_alive {
 #define ALIVE_BASE  0xC0010800
 #define S5P4418_ALIVE   ((struct s5p4418_alive *)ALIVE_BASE)
 
-#define PWMGATEEN   0x01    /* Enable Writing Data to Alive Register */
-
 #endif
