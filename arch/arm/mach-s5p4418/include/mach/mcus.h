@@ -19,4 +19,8 @@ struct s5p4418_mcus {
 #define MCUS_BASE   0xC0051000
 #define S5P4418_MCUS    ((struct s5p4418_mcus *)MCUS_BASE)
 
+#define MCUS0_MASK  (0x0F)
+#define MCUS1_MASK  (0xF0)
+#define MCUS_MASK   (0xFF)
+#define MCUSBW_MASK (0x01)
 #endif
