@@ -919,7 +919,6 @@ static init_fnc_t init_sequence_f[] = {
 #endif
 	display_options,	/* say that we are here */
 	display_text_info,	/* show debugging info if required */
-    led_on,
 #if defined(CONFIG_MPC8260)
 	prt_8260_rsr,
 	prt_8260_clks,
@@ -949,6 +948,7 @@ static init_fnc_t init_sequence_f[] = {
 	init_func_spi,
 #endif
 	announce_dram_init,
+    led_on,
 	/* TODO: unify all these dram functions? */
 #if defined(CONFIG_ARM) || defined(CONFIG_X86) || defined(CONFIG_NDS32) || \
 		defined(CONFIG_MICROBLAZE) || defined(CONFIG_AVR32)
