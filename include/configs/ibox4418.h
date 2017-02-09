@@ -9,6 +9,8 @@
 #define __CONFIG_H
 
 #define DEBUG
+/* input clock of PLL */
+#define CONFIG_SYS_CLK_FREQ         24000000
 
 #define CONFIG_SYS_TEXT_BASE        0x42C00000
 #define CONFIG_SYS_INIT_SP_ADDR     CONFIG_SYS_TEXT_BASE

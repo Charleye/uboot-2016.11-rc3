@@ -63,6 +63,7 @@
 #endif
 #include <dm/root.h>
 #include <linux/compiler.h>
+#include <asm/arch/clock.h>
 
 /*
  * Pointer to initial global data area
@@ -947,6 +948,7 @@ static init_fnc_t init_sequence_f[] = {
 #if defined(CONFIG_HARD_SPI)
 	init_func_spi,
 #endif
+    clock_cpu_init,
 	announce_dram_init,
     led_on,
 	/* TODO: unify all these dram functions? */
