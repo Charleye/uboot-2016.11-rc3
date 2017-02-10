@@ -10,6 +10,7 @@
 #include <asm/arch/cpu.h>
 #include <asm/arch/clk.h>
 #include <asm/arch/clock.h>
+#include <asm/arch/periph.h>
 
 #define PLL_DIV_65536   65536
 
@@ -34,7 +35,48 @@ static int s5p4418_get_pll_clk(int pllreg, unsigned int r, unsigned int k)
     return fout;
 }
 
-static unsigned long get_pll_clk(int pllreg)
+static unsigned long s5p4418_get_uart_clk(int dev_index)
+{
+    struct s5p4418_clkgen *clkgen;
+    unsigned long uclk, sclk;
+    unsigned int sel;
+    unsigned int ratio;
+
+    switch (dev_index) {
+    case 0:
+        clkgen = (struct s5p4418_clkgen*)s5p4418_get_base_uart0();
+        break;
+    case 1:
+        clkgen = (struct s5p4418_clkgen*)s5p4418_get_base_uart1();
+        break;
+    case 2:
+        clkgen = (struct s5p4418_clkgen*)s5p4418_get_base_uart2();
+        break;
+    case 3:
+        clkgen = (struct s5p4418_clkgen*)s5p4418_get_base_uart3();
+        break;
+    }
+
+    sel = readl(&clkgen->clkgen0);
+    sel = (sel >> 2) & 0x7;
+
+    if (sel == 0x00)
+        sclk = get_pll_clk(PLL0);
+    else if (sel == 0x01)
+        sclk = get_pll_clk(PLL1);
+    else if (sel == 0x02)
+        sclk = get_pll_clk(PLL2);
+    else
+        return 0;
+
+    ratio = readl(&clkgen->clkgen0);
+    ratio = (ratio >> 5) & 0xff;
+
+    uclk = sclk / (ratio + 1);
+    return uclk;
+}
+
+unsigned long get_pll_clk(int pllreg)
 {
     struct s5p4418_clock *clk =
         (struct s5p4418_clock *)s5p4418_get_base_clock();
@@ -63,10 +105,35 @@ static unsigned long get_pll_clk(int pllreg)
     return s5p4418_get_pll_clk(pllreg, r, k);
 }
 
+unsigned long get_uart_clk(int dev_index)
+{
+    enum periph_id id;
+
+    switch (dev_index) {
+    case 0:
+        id = PERIPH_ID_UART0;
+        break;
+    case 1:
+        id = PERIPH_ID_UART1;
+        break;
+    case 2:
+        id = PERIPH_ID_UART2;
+        break;
+    case 3:
+        id = PERIPH_ID_UART3;
+    default:
+        debug("%s: invalid UART index %d", __func__, dev_index);
+        return -1;
+    }
+    return s5p4418_get_uart_clk(id);
+}
+
 int clock_cpu_init(void)
 {
     printf("PLL0: %ldHz\n", get_pll_clk(PLL0));
     printf("PLL1: %ldHz\n", get_pll_clk(PLL1));
+    printf("UART0: %ldHz\n", get_uart_clk(0));
+    printf("UART1: %ldHz\n", get_uart_clk(1));
 
     return 0;
 }

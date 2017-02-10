@@ -15,8 +15,8 @@ static void clock_uart_init(void)
 {
     unsigned int val;
     unsigned int set, clr;
-    struct clkgen *clkgen =
-        (struct clkgen*)s5p4418_get_base_uart0();
+    struct s5p4418_clkgen *clkgen =
+        (struct s5p4418_clkgen*)s5p4418_get_base_uart0();
 
     val = readl(&clkgen->clkenb);
     val &= ~CLKGEN;

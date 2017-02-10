@@ -21,5 +21,7 @@ static inline unsigned long __attribute__((no_instrument_function)) \
 S5P4418_BASE(clock, CLOCK_BASE)
 S5P4418_BASE(uart0, UART0_BASE)
 S5P4418_BASE(uart1, UART1_BASE)
+S5P4418_BASE(uart2, UART2_BASE)
+S5P4418_BASE(uart3, UART3_BASE)
 
 #endif

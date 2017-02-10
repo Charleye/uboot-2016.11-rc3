@@ -10,4 +10,7 @@
 #define CLKDIV0(x)      (((x) & 0xff) << 5)
 #define CLKSRCSEL0(x)   (((x) & 0x07) << 2)
 #define OUTCLKINV0(x)   (((x) & 0x01) << 1)
+
+unsigned long get_uart_clk(int dev_index);
+unsigned long get_pll_clk(int pllreg);
 #endif

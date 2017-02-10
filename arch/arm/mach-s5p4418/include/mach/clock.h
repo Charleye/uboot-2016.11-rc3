@@ -24,7 +24,7 @@ struct s5p4418_clock {
     unsigned char res3[0x1C0];
 };
 
-struct clkgen {
+struct s5p4418_clkgen {
     unsigned int clkenb;    /* Clock Enable/Disable */
     unsigned int clkgen0;
     unsigned int clkgen1;
