@@ -7,26 +7,29 @@
 
 #include <common.h>
 #include <asm/io.h>
+#include <asm/arch/cpu.h>
 #include <asm/arch/clk.h>
+#include <asm/arch/clock.h>
 
 static void clock_uart_init(void)
 {
-    register volatile u32 val;
+    unsigned int val;
+    unsigned int set, clr;
+    struct clkgen *clkgen =
+        (struct clkgen*)s5p4418_get_base_uart0();
 
-    /* Disable to generate clock for UART0 */
-    val = readl(UART0CLKENB);
-    val &= ~0x04;
-    writel(val, UART0CLKENB);
+    val = readl(&clkgen->clkenb);
+    val &= ~CLKGEN;
+    writel(val, &clkgen->clkenb);
 
-    /* Configure UART0 Clock */
-    val = 0x160;    /* 50MHz PLL0 */
-    writel(val, UART0CLKGEN);
+    clr = CLKSRCSEL0(7) | CLKDIV0(0xFF) | OUTCLKINV0(1);
+    set = CLKSRCSEL0(0) | CLKDIV0(0x0B) | OUTCLKINV0(0);
+    clrsetbits_le32(&clkgen->clkgen0, clr, set);
 
-    /* Enable to generate clock for UART0 */
-    val = readl(UART0CLKENB);
-    val &= ~0x04;
-    val |= 0x04;
-    writel(val, UART0CLKENB);
+    val = readl(&clkgen->clkenb);
+    val &= ~CLKGEN;
+    val |= CLKGEN;
+    writel(val, &clkgen->clkenb);
 }
 
 int mach_cpu_init(void)

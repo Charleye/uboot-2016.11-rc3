@@ -6,7 +6,8 @@
 #define PLL2    2
 #define PLL3    3
 
-#define UART0CLKENB     0xC00A9000
-#define UART0CLKGEN     0xC00A9004
-
+#define CLKGEN          (1 << 2)
+#define CLKDIV0(x)      (((x) & 0xff) << 5)
+#define CLKSRCSEL0(x)   (((x) & 0x07) << 2)
+#define OUTCLKINV0(x)   (((x) & 0x01) << 1)
 #endif
