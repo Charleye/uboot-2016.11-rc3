@@ -97,8 +97,8 @@ enum s5p4418_gpio_pin {
     S5P4418_GPIO_B30,
     S5P4418_GPIO_B31,
 
-    S5P4418_GPIOB_MAX_POART,    /* 64 0x40 */
-    S5P4418_GPIO_C00 = S5P4418_GPIOB_MAX_POART,
+    S5P4418_GPIOB_MAX_PORT,    /* 64 0x40 */
+    S5P4418_GPIO_C00 = S5P4418_GPIOB_MAX_PORT,
     S5P4418_GPIO_C01,
     S5P4418_GPIO_C02,
     S5P4418_GPIO_C03,
@@ -200,6 +200,20 @@ enum s5p4418_gpio_pin {
     S5P4418_GPIO_E31,
 
     S5P4418_GPIO_MAX_PORT,  /* 160 0xa0 */
+};
+
+struct gpio_info {
+    unsigned int reg_addr;
+    unsigned int max_gpio;
+};
+
+#define S5P4418_GPIO_NUM_PARTS  5
+static struct gpio_info s5p4418_gpio_data[S5P4418_GPIO_NUM_PARTS] = {
+    {S5P4418_GPIOA_BASE, S5P4418_GPIOA_MAX_PORT},
+    {S5P4418_GPIOB_BASE, S5P4418_GPIOB_MAX_PORT},
+    {S5P4418_GPIOC_BASE, S5P4418_GPIOC_MAX_PORT},
+    {S5P4418_GPIOD_BASE, S5P4418_GPIOD_MAX_PORT},
+    {S5P4418_GPIOE_BASE, S5P4418_GPIO_MAX_PORT},
 };
 
 void gpio_cfg_pin(int gpio, int cfg);
