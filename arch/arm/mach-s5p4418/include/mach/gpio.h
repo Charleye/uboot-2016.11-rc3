@@ -24,7 +24,7 @@ struct s5p4418_gpio_bank {
     unsigned int pullsel_disa;
     unsigned int pullenb;
     unsigned int pullenb_disa;
-}
+};
 
 /* GPIO pins per bank */
 #define GPIO_PER_BANK   32

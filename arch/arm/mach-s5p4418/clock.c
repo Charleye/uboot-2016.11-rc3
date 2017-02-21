@@ -37,7 +37,7 @@ static int s5p4418_get_pll_clk(int pllreg, unsigned int r, unsigned int k)
 
 static unsigned long s5p4418_get_uart_clk(int dev_index)
 {
-    struct s5p4418_clkgen *clkgen;
+    struct s5p4418_clkgen *clkgen = NULL;
     unsigned long uclk, sclk;
     unsigned int sel;
     unsigned int ratio;

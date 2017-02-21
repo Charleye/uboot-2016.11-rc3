@@ -56,4 +56,6 @@
 #define CONFIG_PL011_CLOCK      50000000    /* 50 MHZ */
 #define CONFIG_PL01x_PORTS      { (void*)CONFIG_SYS_SERIAL0, \
                                   (void*)CONFIG_SYS_SERIAL1 }
+
+#define CONFIG_BOARD_EARLY_INIT_F
 #endif
