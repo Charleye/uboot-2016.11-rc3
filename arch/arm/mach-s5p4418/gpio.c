@@ -27,12 +27,11 @@ static struct s5p4418_gpio_bank *s5p4418_gpio_get_bank(unsigned int gpio)
     count = get_bank_num();
     upto = 0;
 
-    for (i = 0; i < count; i ++) {
+    for (i = 0; i < count; i++) {
         debug("i=%d, upto=%d\n", i, upto);
         if (gpio < data->max_gpio) {
             struct s5p4418_gpio_bank *bank;
             bank = (struct s5p4418_gpio_bank *)data->reg_addr;
-            bank += (gpio - upto) / GPIO_PER_BANK;
             debug("gpio=%d,bank=%p\n", gpio, bank);
             return bank;
         }
@@ -111,7 +110,8 @@ void gpio_cfg_pin(int gpio, int cfg)
 
 int gpio_test(void)
 {
-    s5p4418_gpio_get_bank(S5P4418_GPIO_D01);
+    s5p4418_gpio_get_bank(S5P4418_GPIO_D22);
+    s5p4418_gpio_get_bank(S5P4418_GPIO_B20);
 
     return 0;
 }

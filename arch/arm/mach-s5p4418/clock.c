@@ -43,16 +43,16 @@ static unsigned long s5p4418_get_uart_clk(int dev_index)
     unsigned int ratio;
 
     switch (dev_index) {
-    case 0:
+    case PERIPH_ID_UART0:
         clkgen = (struct s5p4418_clkgen*)s5p4418_get_base_uart0();
         break;
-    case 1:
+    case PERIPH_ID_UART1:
         clkgen = (struct s5p4418_clkgen*)s5p4418_get_base_uart1();
         break;
-    case 2:
+    case PERIPH_ID_UART2:
         clkgen = (struct s5p4418_clkgen*)s5p4418_get_base_uart2();
         break;
-    case 3:
+    case PERIPH_ID_UART3:
         clkgen = (struct s5p4418_clkgen*)s5p4418_get_base_uart3();
         break;
     }
