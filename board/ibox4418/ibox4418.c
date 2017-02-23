@@ -6,8 +6,8 @@
  */
 
 #include <common.h>
-#include <asm/gpio.h>
 #include <asm/arch/cpu.h>
+#include <asm/gpio.h>
 
 int board_init(void)
 {

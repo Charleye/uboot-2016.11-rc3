@@ -6,6 +6,7 @@
  */
 
 #include <common.h>
+#include <asm/arch/cpu.h>
 #include <asm/gpio.h>
 #include <asm/arch/pinmux.h>
 

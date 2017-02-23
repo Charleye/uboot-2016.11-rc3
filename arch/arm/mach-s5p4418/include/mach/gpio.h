@@ -207,8 +207,8 @@ struct gpio_info {
     unsigned int max_gpio;
 };
 
-#define S5P4418_GPIO_NUM_PARTS  5
-static struct gpio_info s5p4418_gpio_data[S5P4418_GPIO_NUM_PARTS] = {
+#define S5P4418_GPIO_NUM_BANKS  5
+static struct gpio_info s5p4418_gpio_data[S5P4418_GPIO_NUM_BANKS] = {
     {S5P4418_GPIOA_BASE, S5P4418_GPIOA_MAX_PORT},
     {S5P4418_GPIOB_BASE, S5P4418_GPIOB_MAX_PORT},
     {S5P4418_GPIOC_BASE, S5P4418_GPIOC_MAX_PORT},
@@ -216,8 +216,20 @@ static struct gpio_info s5p4418_gpio_data[S5P4418_GPIO_NUM_PARTS] = {
     {S5P4418_GPIOE_BASE, S5P4418_GPIO_MAX_PORT},
 };
 
+static inline struct gpio_info *get_gpio_data(void)
+{
+    return s5p4418_gpio_data;
+}
+
+static inline unsigned int get_bank_num(void)
+{
+    return S5P4418_GPIO_NUM_BANKS;
+}
+
 void gpio_cfg_pin(int gpio, int cfg);
 void gpio_set_pull(int gpio, int mode);
 void gpio_set_drv(int gpio, int mode);
+
+int gpio_test(void);
 
 #endif
