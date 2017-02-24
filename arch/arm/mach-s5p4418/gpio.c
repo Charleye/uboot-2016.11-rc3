@@ -10,6 +10,8 @@
 #include <asm/arch/cpu.h>
 #include <asm/gpio.h>
 
+#define S5P4418_GPIO_GET_PIN(x) (x % GPIO_PER_BANK)
+
 #define CFG_MASK(val)           (0x3 << ((val) << 1))
 #define CFG_SFR(gpio, cfg)      ((cfg) << ((gpio) << 1))
 #define CFG_SFR_UNSHIFT(val, gpio)  ((val) >> ((gpio) << 1))
@@ -60,7 +62,7 @@ static void s5p4418_gpio_cfg_pin(struct s5p4418_gpio_bank *bank, int gpio, int c
     }
 }
 
-static unsigned int s5p4418_gpio_get_cfg(struct s5p4418_gpio_bank *bank, int gpio)
+static unsigned int s5p4418_gpio_get_cfg_pin(struct s5p4418_gpio_bank *bank, int gpio)
 {
     unsigned int value;
 
@@ -96,6 +98,11 @@ static unsigned int s5p4418_gpio_get_value(struct s5p4418_gpio_bank *bank, int g
     return !!(value & DAT_MASK(gpio));
 }
 
+int s5p4418_gpio_get_pin(unsigned int gpio)
+{
+    return S5P4418_GPIO_GET_PIN(gpio);
+}
+
 void gpio_set_pull(int gpio, int mode)
 {
 }
@@ -104,14 +111,32 @@ void gpio_set_drv(int gpio, int mode)
 {
 }
 
+void gpio_set_direction(int gpio, int cfg)
+{
+}
+
+int gpio_set_value(unsigned gpio, int value)
+{
+    return 0;
+}
+
+int gpio_get_value(unsigned gpio)
+{
+    return 0;
+}
+
 void gpio_cfg_pin(int gpio, int cfg)
 {
+    s5p4418_gpio_cfg_pin(s5p4418_gpio_get_bank(gpio),
+            s5p4418_gpio_get_pin(gpio), cfg);
 }
 
 int gpio_test(void)
 {
-    s5p4418_gpio_get_bank(S5P4418_GPIO_D22);
-    s5p4418_gpio_get_bank(S5P4418_GPIO_B20);
+    debug("GPIO=%d, CFG=%d\n", S5P4418_GPIO_D18, s5p4418_gpio_get_cfg_pin(s5p4418_gpio_get_bank(S5P4418_GPIO_D18),
+                s5p4418_gpio_get_pin(S5P4418_GPIO_D18)));
+    debug("GPIO=%d, CFG=%d\n", S5P4418_GPIO_D14, s5p4418_gpio_get_cfg_pin(s5p4418_gpio_get_bank(S5P4418_GPIO_D14),
+                s5p4418_gpio_get_pin(S5P4418_GPIO_D14)));
 
     return 0;
 }

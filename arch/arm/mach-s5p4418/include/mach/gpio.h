@@ -229,7 +229,19 @@ static inline unsigned int get_bank_num(void)
 void gpio_cfg_pin(int gpio, int cfg);
 void gpio_set_pull(int gpio, int mode);
 void gpio_set_drv(int gpio, int mode);
+void gpio_set_direction(int gpio, int cfg);
 
 int gpio_test(void);
+
+/* Pin Configuration */
+#define S5P4418_GPIO_INPUT  0x0
+#define S5P4418_GPIO_OUTPUT 0x1
+#define S5P4418_GPIO_FUNC(x)    (x)
+
+/* Pull mode */
+#define S5P4418_GPIO_PULL_DOWN  0x0
+#define S5P4418_GPIO_PULL_UP    0x1
+
+/* Driver Strength level */
 
 #endif
