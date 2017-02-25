@@ -13,6 +13,7 @@ struct s5p4418_gpio_bank {
     unsigned int altfn0;
     unsigned int altfn1;
     unsigned int detmodeex;
+    unsigned char res1[16];
     unsigned int detenb;
     unsigned int slew;
     unsigned int slew_disable;
@@ -229,7 +230,6 @@ static inline unsigned int get_bank_num(void)
 void gpio_cfg_pin(int gpio, int cfg);
 void gpio_set_pull(int gpio, int mode);
 void gpio_set_drv(int gpio, int mode);
-void gpio_set_direction(int gpio, int cfg);
 
 int gpio_test(void);
 
@@ -241,6 +241,7 @@ int gpio_test(void);
 /* Pull mode */
 #define S5P4418_GPIO_PULL_DOWN  0x0
 #define S5P4418_GPIO_PULL_UP    0x1
+#define S5P4418_GPIO_PULL_NONE  0x2
 
 /* Driver Strength level */
 
