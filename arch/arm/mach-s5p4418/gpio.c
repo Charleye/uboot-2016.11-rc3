@@ -25,6 +25,9 @@
 #define PULL_MASK(gpio)         (0x1 << (gpio))
 #define PULL_SET(gpio)          (0x1 << (gpio))
 
+#define DRV_MASK(gpio)          (0x1 << (gpio))
+#define DRV_SET(gpio)           (0x1 << (gpio))
+
 int s5p4418_gpio_get_pin(unsigned int gpio)
 {
     return S5P4418_GPIO_GET_PIN(gpio);
@@ -171,8 +174,6 @@ static int s5p4418_gpio_get_pull(struct s5p4418_gpio_bank *bank, int gpio)
     unsigned int value;
 
     value = readl(&bank->pullenb);
-    debug("Pull Enable: %d\n", value);
-
     if ((value >> gpio) & 0x1) {
         value = readl(&bank->pullsel);
         if ((value >> gpio) & 0x1)
@@ -181,6 +182,109 @@ static int s5p4418_gpio_get_pull(struct s5p4418_gpio_bank *bank, int gpio)
             return S5P4418_GPIO_PULL_DOWN;
     }
     return S5P4418_GPIO_PULL_NONE;
+}
+
+static void s5p4418_gpio_set_drv(struct s5p4418_gpio_bank *bank, int gpio, int drv)
+{
+    unsigned int value;
+
+    switch (drv) {
+    case S5P4418_GPIO_DRV_1X:
+        value = readl(&bank->drv0);
+        value &= ~DRV_MASK(gpio);
+        writel(value, &bank->drv0);
+        value = readl(&bank->drv1);
+        value &= ~DRV_MASK(gpio);
+        writel(value, &bank->drv1);
+        break;
+
+    case S5P4418_GPIO_DRV_2X:
+        value = readl(&bank->drv0);
+        value &= ~DRV_MASK(gpio);
+        writel(value, &bank->drv0);
+        value = readl(&bank->drv1);
+        value |= DRV_SET(gpio);
+        writel(value, &bank->drv1);
+        break;
+
+    case S5P4418_GPIO_DRV_3X:
+        value = readl(&bank->drv0);
+        value |= DRV_SET(gpio);
+        writel(value, &bank->drv0);
+        value = readl(&bank->drv1);
+        value |= DRV_SET(gpio);
+        writel(value, &bank->drv1);
+        break;
+
+    default:
+        break;
+    }
+
+    value = readl(&bank->drv0_disable);
+    value |= DRV_SET(gpio);
+    writel(value, &bank->drv0_disable);
+    value = readl(&bank->drv1_disable);
+    value |= DRV_SET(gpio);
+    writel(value, &bank->drv1_disable);
+}
+
+static int s5p4418_gpio_get_drv(struct s5p4418_gpio_bank *bank, int gpio)
+{
+    unsigned int value, drv;
+
+    value = readl(&bank->drv0);
+    drv = (value >> gpio) & 0x1;
+    value = readl(&bank->drv1);
+    drv |= ((value >> gpio) & 0x1) << 1;
+
+    switch (drv) {
+    case 0x0:
+        return S5P4418_GPIO_DRV_1X;
+    case 0x1:
+        return S5P4418_GPIO_DRV_2X;
+    case 0x2:
+        return S5P4418_GPIO_DRV_3X;
+    default:
+        break;
+    }
+    return S5P4418_GPIO_DRV_1X;
+}
+
+static void s5p4418_gpio_set_rate(struct s5p4418_gpio_bank *bank, int gpio, int mode)
+{
+    unsigned int value;
+
+    switch (mode) {
+    case S5P4418_GPIO_DRV_FAST:
+        value = readl(&bank->slew);
+        value |= DRV_SET(gpio);
+        writel(value, &bank->slew);
+        break;
+
+    case S5P4418_GPIO_DRV_SLOW:
+        value = readl(&bank->slew);
+        value &= ~DRV_MASK(gpio);
+        writel(value, &bank->slew);
+        break;
+
+    default:
+        break;
+    }
+
+    value = readl(&bank->slew_disable);
+    value |= DRV_SET(gpio);
+    writel(value, &bank->slew_disable);
+}
+
+static int s5p4418_gpio_get_rate(struct s5p4418_gpio_bank *bank, int gpio)
+{
+    unsigned int value;
+
+    value = readl(&bank->slew);
+    if ((value >> gpio) & 0x1)
+        return S5P4418_GPIO_DRV_SLOW;
+    else
+        return S5P4418_GPIO_DRV_FAST;
 }
 
 void gpio_set_pull(int gpio, int mode)
@@ -197,6 +301,14 @@ int gpio_get_pull(int gpio)
 
 void gpio_set_drv(int gpio, int mode)
 {
+    s5p4418_gpio_set_drv(s5p4418_gpio_get_bank(gpio),
+            s5p4418_gpio_get_pin(gpio), mode);
+}
+
+int gpio_get_drv(int gpio)
+{
+    return s5p4418_gpio_get_drv(s5p4418_gpio_get_bank(gpio),
+            s5p4418_gpio_get_pin(gpio));
 }
 
 int gpio_set_value(unsigned gpio, int value)
@@ -244,15 +356,29 @@ int gpio_direction_output(unsigned gpio, int value)
     return 0;
 }
 
+void gpio_set_rate(int gpio, int mode)
+{
+    s5p4418_gpio_set_rate(s5p4418_gpio_get_bank(gpio),
+            s5p4418_gpio_get_pin(gpio), mode);
+}
+
+int gpio_get_rate(int gpio)
+{
+    return s5p4418_gpio_get_rate(s5p4418_gpio_get_bank(gpio),
+            s5p4418_gpio_get_pin(gpio));
+}
+
 int gpio_test(void)
 {
     gpio_set_pull(S5P4418_GPIO_C07, S5P4418_GPIO_PULL_DOWN);
-    gpio_direction_output(S5P4418_GPIO_C07, 0x0);
+    gpio_direction_output(S5P4418_GPIO_C07, 0x1);
 
     gpio_set_pull(S5P4418_GPIO_C12, S5P4418_GPIO_PULL_DOWN);
     gpio_direction_output(S5P4418_GPIO_C12, 0x0);
 
     debug("Pull Mode: %d\n", gpio_get_pull(S5P4418_GPIO_C07));
+    debug("Drv Level: %d\n", gpio_get_drv(S5P4418_GPIO_C07));
+    debug("Rate Level: %d\n", gpio_get_rate(S5P4418_GPIO_C07));
 
     return 0;
 }
