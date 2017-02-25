@@ -166,10 +166,33 @@ static void s5p4418_gpio_set_pull(struct s5p4418_gpio_bank *bank, int gpio, int 
     writel(value, &bank->pullenb_disa);
 }
 
+static int s5p4418_gpio_get_pull(struct s5p4418_gpio_bank *bank, int gpio)
+{
+    unsigned int value;
+
+    value = readl(&bank->pullenb);
+    debug("Pull Enable: %d\n", value);
+
+    if ((value >> gpio) & 0x1) {
+        value = readl(&bank->pullsel);
+        if ((value >> gpio) & 0x1)
+            return S5P4418_GPIO_PULL_UP;
+        else
+            return S5P4418_GPIO_PULL_DOWN;
+    }
+    return S5P4418_GPIO_PULL_NONE;
+}
+
 void gpio_set_pull(int gpio, int mode)
 {
     s5p4418_gpio_set_pull(s5p4418_gpio_get_bank(gpio),
             s5p4418_gpio_get_pin(gpio), mode);
+}
+
+int gpio_get_pull(int gpio)
+{
+    return s5p4418_gpio_get_pull(s5p4418_gpio_get_bank(gpio),
+            s5p4418_gpio_get_pin(gpio));
 }
 
 void gpio_set_drv(int gpio, int mode)
@@ -228,6 +251,8 @@ int gpio_test(void)
 
     gpio_set_pull(S5P4418_GPIO_C12, S5P4418_GPIO_PULL_DOWN);
     gpio_direction_output(S5P4418_GPIO_C12, 0x0);
+
+    debug("Pull Mode: %d\n", gpio_get_pull(S5P4418_GPIO_C07));
 
     return 0;
 }
