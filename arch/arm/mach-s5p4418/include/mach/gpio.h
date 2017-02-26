@@ -233,6 +233,7 @@ void gpio_set_pull(int gpio, int mode);
 int gpio_get_pull(int gpio);
 void gpio_set_drv(int gpio, int mode);
 int gpio_get_drv(int gpio);
+void gpio_set_direction(int gpio, int mode);
 
 
 int gpio_test(void);

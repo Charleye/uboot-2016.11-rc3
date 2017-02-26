@@ -12,6 +12,38 @@
 
 static void s5p4418_uart_config(int peripheral)
 {
+    switch (peripheral) {
+    case PERIPH_ID_UART0:
+        gpio_cfg_pin(S5P4418_GPIO_D14, S5P4418_GPIO_FUNC(0x1));
+        gpio_cfg_pin(S5P4418_GPIO_D18, S5P4418_GPIO_FUNC(0x1));
+        gpio_set_direction(S5P4418_GPIO_D14, S5P4418_GPIO_INPUT);
+        gpio_set_direction(S5P4418_GPIO_D18, S5P4418_GPIO_OUTPUT);
+        break;
+
+    case PERIPH_ID_UART1:
+        gpio_cfg_pin(S5P4418_GPIO_D15, S5P4418_GPIO_FUNC(0x1));
+        gpio_cfg_pin(S5P4418_GPIO_D19, S5P4418_GPIO_FUNC(0x1));
+        gpio_set_direction(S5P4418_GPIO_D15, S5P4418_GPIO_INPUT);
+        gpio_set_direction(S5P4418_GPIO_D19, S5P4418_GPIO_OUTPUT);
+        break;
+
+    case PERIPH_ID_UART2:
+        gpio_cfg_pin(S5P4418_GPIO_D16, S5P4418_GPIO_FUNC(0x1));
+        gpio_cfg_pin(S5P4418_GPIO_D20, S5P4418_GPIO_FUNC(0x1));
+        gpio_set_direction(S5P4418_GPIO_D16, S5P4418_GPIO_INPUT);
+        gpio_set_direction(S5P4418_GPIO_D20, S5P4418_GPIO_OUTPUT);
+        break;
+
+    case PERIPH_ID_UART3:
+        gpio_cfg_pin(S5P4418_GPIO_D17, S5P4418_GPIO_FUNC(0x1));
+        gpio_cfg_pin(S5P4418_GPIO_D21, S5P4418_GPIO_FUNC(0x1));
+        gpio_set_direction(S5P4418_GPIO_D17, S5P4418_GPIO_INPUT);
+        gpio_set_direction(S5P4418_GPIO_D21, S5P4418_GPIO_OUTPUT);
+        break;
+
+    default:
+        break;
+    }
 }
 
 static void s5p4418_i2c_config(int peripheral, int flags)

@@ -347,11 +347,11 @@ int gpio_direction_input(unsigned gpio)
 
 int gpio_direction_output(unsigned gpio, int value)
 {
-    s5p4418_gpio_set_direction(s5p4418_gpio_get_bank(gpio),
-            s5p4418_gpio_get_pin(gpio), S5P4418_GPIO_OUTPUT);
-
     s5p4418_gpio_set_value(s5p4418_gpio_get_bank(gpio),
             s5p4418_gpio_get_pin(gpio), value);
+
+    s5p4418_gpio_set_direction(s5p4418_gpio_get_bank(gpio),
+            s5p4418_gpio_get_pin(gpio), S5P4418_GPIO_OUTPUT);
 
     return 0;
 }
@@ -368,17 +368,8 @@ int gpio_get_rate(int gpio)
             s5p4418_gpio_get_pin(gpio));
 }
 
-int gpio_test(void)
+void gpio_set_direction(int gpio, int mode)
 {
-    gpio_set_pull(S5P4418_GPIO_C07, S5P4418_GPIO_PULL_DOWN);
-    gpio_direction_output(S5P4418_GPIO_C07, 0x1);
-
-    gpio_set_pull(S5P4418_GPIO_C12, S5P4418_GPIO_PULL_DOWN);
-    gpio_direction_output(S5P4418_GPIO_C12, 0x0);
-
-    debug("Pull Mode: %d\n", gpio_get_pull(S5P4418_GPIO_C07));
-    debug("Drv Level: %d\n", gpio_get_drv(S5P4418_GPIO_C07));
-    debug("Rate Level: %d\n", gpio_get_rate(S5P4418_GPIO_C07));
-
-    return 0;
+    s5p4418_gpio_set_direction(s5p4418_gpio_get_bank(gpio),
+            s5p4418_gpio_get_pin(gpio), mode);
 }
