@@ -15,6 +15,7 @@
 #define S5P4418_UART3_BASE  0xC00AB000
 #define S5P4418_UART4_BASE  0xC006E000
 #define S5P4418_UART5_BASE  0xC0084000
+#define S5P4418_TIMER_BASE  0xC0017000
 
 #define S5P4418_BASE(device,base)       \
 static inline unsigned long __attribute__((no_instrument_function)) \
@@ -28,5 +29,6 @@ S5P4418_BASE(uart0, UART0_BASE)
 S5P4418_BASE(uart1, UART1_BASE)
 S5P4418_BASE(uart2, UART2_BASE)
 S5P4418_BASE(uart3, UART3_BASE)
+S5P4418_BASE(timer, TIMER_BASE)
 
 #endif
