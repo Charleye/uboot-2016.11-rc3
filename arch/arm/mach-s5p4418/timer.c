@@ -22,15 +22,16 @@ DECLARE_GLOBAL_DATA_PTR;
 /* macro to read the 32-bit timer */
 static inline struct s5p4418_timer *s5p_get_base_timer(void)
 {
-    return (s5p4418_timer *)s5p4418_get_base_timer();
+    return (struct s5p4418_timer *)s5p4418_get_base_timer();
 }
 
 /* return current value of timer */
 static unsigned long timer_get_us_down(void)
 {
-    struct s5p4418_timer *const timer = s5p4418_get_base_timer();
+    struct s5p4418_timer *const timer =
+            (struct s5p4418_timer *)s5p4418_get_base_timer();
 
-    return readl(&timer->tcnt04);
+    return readl(&timer->tcnto4);
 }
 
 int timer_init(void)
@@ -93,5 +94,20 @@ void __udelay(unsigned long usec)
 
 void reset_timer_masked(void)
 {
+    struct s5p4418_timer *const timer =
+            (struct s5p4418_timer *)s5p4418_get_base_timer();
 
+    /* reset timer */
+    gd->arch.lastinc = readl(&timer->tcnto4);
+    gd->arch.tbl = 0;
+}
+
+unsigned long long get_ticks(void)
+{
+    return get_timer(0);
+}
+
+unsigned long get_tbclk(void)
+{
+    return CONFIG_SYS_HZ;
 }

@@ -11,6 +11,7 @@
 #include <asm/arch/clk.h>
 #include <asm/arch/clock.h>
 #include <asm/arch/periph.h>
+#include <asm/arch/pwm.h>
 
 #define PLL_DIV_65536   65536
 
@@ -127,6 +128,12 @@ unsigned long get_uart_clk(int dev_index)
     }
     return s5p4418_get_uart_clk(id);
 }
+
+unsigned long get_pwm_clk(void)
+{
+    return 0;
+}
+
 
 int clock_cpu_init(void)
 {
