@@ -77,6 +77,40 @@ static unsigned long s5p4418_get_uart_clk(int dev_index)
     return uclk;
 }
 
+static unsigned long s5p4418_get_sys_bus_clk(int name)
+{
+    struct s5p4418_clock *clk =
+        (struct s5p4418_clock *)s5p4418_get_base_clock();
+    unsigned long sclk, uclk = 0;
+    unsigned int sel;
+    unsigned int ratio;
+
+    sel = readl(&clk->div[1]) & 0x7;
+    if (sel == 0x00)
+        sclk = get_pll_clk(PLL0);
+    else if (sel == 0x01)
+        sclk = get_pll_clk(PLL1);
+    else if (sel == 0x02)
+        sclk = get_pll_clk(PLL2);
+    else
+        return 0;
+
+    if (name == BCLK) {
+        ratio = readl(&clk->div[1]);
+        ratio = (ratio >> 3) & 0x3f;
+        uclk = sclk / (ratio + 1);
+    } else if (name == PCLK) {
+        ratio = readl (&clk->div[1]);
+        ratio = (ratio >> 3) & 0x3f;
+        uclk = sclk / (ratio + 1);
+        ratio = readl (&clk->div[1]);
+        ratio = (ratio >> 9) & 0x3f;
+        uclk = uclk / (ratio + 1);
+    }
+
+    return uclk;
+}
+
 unsigned long get_pll_clk(int pllreg)
 {
     struct s5p4418_clock *clk =
@@ -129,9 +163,26 @@ unsigned long get_uart_clk(int dev_index)
     return s5p4418_get_uart_clk(id);
 }
 
+unsigned long get_clock_rate(int name)
+{
+    switch (name) {
+    case FCLK:
+    case HCLK:
+        break;
+    case BCLK:
+    case PCLK:
+        return s5p4418_get_sys_bus_clk(name);
+
+    default:
+        debug("%s: invaild clock name %d", __func__, name);
+        return -1;
+    }
+    return 0;
+}
+
 unsigned long get_pwm_clk(void)
 {
-    return 0;
+    return get_clock_rate(PCLK);
 }
 
 
@@ -141,6 +192,8 @@ int clock_cpu_init(void)
     printf("PLL1: %ldHz\n", get_pll_clk(PLL1));
     printf("UART0: %ldHz\n", get_uart_clk(0));
     printf("UART1: %ldHz\n", get_uart_clk(1));
+    printf("BCLK: %ldHz\n", s5p4418_get_sys_bus_clk(BCLK));
+    printf("PCLK: %ldHZ\n", s5p4418_get_sys_bus_clk(PCLK));
 
     return 0;
 }
