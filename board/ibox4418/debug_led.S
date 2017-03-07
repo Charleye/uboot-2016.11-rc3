@@ -6,18 +6,14 @@
 
 #include <linux/linkage.h>
 
-ENTRY(led_on)
-/*
+ENTRY(debug_led)
     ldr r0, =0xC001C004
     ldr r1, [r0]
-    orr r1, r1, #(1 << 7)
+    orr r1, r1, #(1 << 12)
     str r1, [r0]
 
     ldr r0, =0xC001C000
-    mov r1, #0x00
+    ldr r1, [r0]
+    bic r1, r1, #(1 << 12)
     str r1, [r0]
-*/
-1:
-    b 1b
-    mov pc, lr
-ENDPROC(led_on)
+ENDPROC(debug_led)

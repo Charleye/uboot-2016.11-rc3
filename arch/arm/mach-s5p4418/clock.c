@@ -188,12 +188,11 @@ unsigned long get_pwm_clk(void)
 
 int clock_cpu_init(void)
 {
-    printf("PLL0: %ldHz\n", get_pll_clk(PLL0));
-    printf("PLL1: %ldHz\n", get_pll_clk(PLL1));
-    printf("UART0: %ldHz\n", get_uart_clk(0));
-    printf("UART1: %ldHz\n", get_uart_clk(1));
-    printf("BCLK: %ldHz\n", s5p4418_get_sys_bus_clk(BCLK));
-    printf("PCLK: %ldHZ\n", s5p4418_get_sys_bus_clk(PCLK));
+
+//    printf("PLL0: %ldHz\n", get_pll_clk(PLL0));
+//    printf("PLL1: %ldHz\n", get_pll_clk(PLL1));
+//    printf("UART0: %ldHz\n", get_uart_clk(0));
+//    printf("UART1: %ldHz\n", get_uart_clk(1));
 
     return 0;
 }

@@ -6,3 +6,4 @@
 
 obj-y	+= ibox4418.o
 obj-y	+= led.o
+obj-y	+= debug_led.o

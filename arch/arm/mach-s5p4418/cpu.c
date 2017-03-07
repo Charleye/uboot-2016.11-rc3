@@ -12,6 +12,8 @@
 #include <asm/arch/tieoff.h>
 #include <asm/arch/mcus.h>
 
+unsigned int timer_val;
+
 /* MCU-S: Static Memory Configuration */
 static void cpu_bus_init (void)
 {
@@ -121,6 +123,7 @@ int arch_cpu_init (void)
     writel(val, &S5P4418_TIEOFF->REG[32]);
 
     cpu_bus_init();
+    timer_val = readl(0xC0017000);
     return 0;
 }
 

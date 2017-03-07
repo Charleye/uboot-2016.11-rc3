@@ -949,7 +949,6 @@ static init_fnc_t init_sequence_f[] = {
 #if defined(CONFIG_HARD_SPI)
 	init_func_spi,
 #endif
-    clock_cpu_init,
 	announce_dram_init,
     led_on,
 	/* TODO: unify all these dram functions? */

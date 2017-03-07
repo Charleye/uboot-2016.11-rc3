@@ -9,6 +9,7 @@
 #define __CONFIG_H
 
 #define DEBUG
+
 #define CONFIG_SYS_HZ               1000    /* decrementer freq: 1ms ticks */
 /* input clock of PLL */
 #define CONFIG_SYS_CLK_FREQ         24000000
