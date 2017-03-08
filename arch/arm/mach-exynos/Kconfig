@@ -58,6 +58,11 @@ config TARGET_ODROID
 
 config TARGET_RP4412
     bool "Exynos4412 RP4412 board"
+    select SUPPORT_SPL
+
+config TARGET_X4412
+    bool "Exynos4412 X4412 board"
+    select SUPPORT_SPL
 
 endchoice
 endif
@@ -153,5 +158,6 @@ source "board/samsung/smdk5250/Kconfig"
 source "board/samsung/smdk5420/Kconfig"
 source "board/samsung/espresso7420/Kconfig"
 source "board/samsung/rp4412/Kconfig"
+source "board/samsung/x4412/Kconfig"
 
 endif
