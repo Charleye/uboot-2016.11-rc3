@@ -49,14 +49,43 @@ int timer_init(void)
     return 0;
 }
 
+unsigned long __attribute__((no_instrument_function)) timer_get_us(void)
+{
+    static unsigned long base_time_us;
+
+    struct s5p4418_timer *const timer =
+        (struct s5p4418_timer *)get_base_timer();
+    unsigned long now_downward_us = readl(&timer->tcnto4);
+
+    if (!base_time_us)
+        base_time_us = now_downward_us;
+
+    return base_time_us - now_downward_us;
+}
+
 /* timer without interrupts */
 void __udelay(unsigned long usec)
 {
+    unsigned long count_value;
+
+    count_value = timer_get_us_dowm();
+    while ((int)(count_value - timer_get_us_dowm()) < (int)usec)
+        ;
 }
 
 ulong get_timer(ulong base)
 {
-    return 0;
+    unsigned long long time_ms;
+
+    ulong now = timer_get_us_dowm();
+
+    gd->arch.timer_reset_value += gd->arch.lastinc - now;
+    gd->arch.lastinc = now;
+
+    time_ms = gd->arch.timer_reset_value;
+    do_div(time_ms, 1000);
+
+    return time_ms - base;
 }
 
 void reset_timer_masked(void)
