@@ -60,4 +60,7 @@
                                   (void*)CONFIG_SYS_SERIAL1 }
 
 #define CONFIG_BOARD_EARLY_INIT_F
+
+#define CONFIG_SYS_I2C
+
 #endif
