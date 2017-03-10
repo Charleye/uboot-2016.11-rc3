@@ -6,4 +6,12 @@ config  SYS_BOARD
 config  SYS_CONFIG_NAME
         default "ibox4418"
 
+config  SYS_I2C_S5P4418_SPEED
+        int
+        default 100000
+
+config  SYS_I2C_S5P4418_SLAVE
+        hex
+        default 0xFE
+
 endif

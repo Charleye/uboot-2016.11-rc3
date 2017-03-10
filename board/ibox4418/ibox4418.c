@@ -16,6 +16,11 @@ int board_init(void)
     return 0;
 }
 
+static void board_gpio_init(void)
+{
+    /* I2C Pin */
+}
+
 static int board_uart_init(void)
 {
     int err;
@@ -37,6 +42,7 @@ int board_early_init_f(void)
         debug("UART init failed\n");
         return err;
     }
+
     return err;
 }
 #endif

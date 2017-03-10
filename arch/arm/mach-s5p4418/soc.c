@@ -33,6 +33,7 @@ static void clock_uart_init(void)
     writel(val, &clkgen->clkenb);
 }
 
+/*
 static void clock_timer_init(void)
 {
     unsigned int val;
@@ -53,10 +54,11 @@ static void clock_timer_init(void)
     val |= CLKGEN;
     writel(val, &clkgen->clkenb);
 }
+*/
+
 int mach_cpu_init(void)
 {
     clock_uart_init();
-    clock_timer_init();
 
     return 0;
 }
