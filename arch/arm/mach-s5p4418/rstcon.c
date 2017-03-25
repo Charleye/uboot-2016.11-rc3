@@ -18,12 +18,12 @@ static void noinline  __udelay__(unsigned long loop)
 static void s5p4418_set_ip(int id, int mode)
 {
     unsigned long val;
-    unsigned long addr = s5p4418_get_base_ip_reset();
+    unsigned long addr;
 
     if (id < 32)
         addr = S5P4418_IP_RESET_BASE;
     else if (id < 64)
-        addr += 0x4;
+        addr = S5P4418_IP_RESET_BASE + 0x4;
     else
         return;
 
@@ -36,12 +36,12 @@ static void s5p4418_set_ip(int id, int mode)
 static unsigned int s5p4418_get_ip(int id)
 {
     unsigned long val;
-    unsigned long addr = s5p4418_get_base_ip_reset();
+    unsigned long addr;
 
     if (id < 32)
         addr = S5P4418_IP_RESET_BASE;
     else if (id < 64)
-        addr += 0x4;
+        addr = S5P4418_IP_RESET_BASE + 0x4;
     else
         return 1;
 
