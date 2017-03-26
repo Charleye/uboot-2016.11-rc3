@@ -38,6 +38,18 @@ static uint s5p4418_i2c_set_bus_speed(struct i2c_adapter *adap, unsigned int spe
 }
 
 #endif
+
+int test_i2c(void)
+{
+    int max = ll_entry_count(struct i2c_adapter, i2c);
+
+    debug("I2C NUM: %d\n", max);
+    debug("Active I2C BUS: %u\n", i2c_get_bus_num());
+    debug("Active I2C speed: %u\n", i2c_get_bus_speed());
+
+    return 0;
+}
+
 /*
  * Register s5p4418 i2c adapters
  */

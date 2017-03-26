@@ -9,4 +9,3 @@ obj-y	+= cpu.o soc.o
 obj-y	+= clock.o
 obj-y	+= timer.o pinmux.o gpio.o
 obj-y	+= rstcon.o pwm.o
-obj-y	+= i2c.o
