@@ -14,10 +14,21 @@
 /* input clock of PLL */
 #define CONFIG_SYS_CLK_FREQ         24000000
 
+#define CONFIG_SYS_SDRAM_BASE       0x40000000
 #define CONFIG_SYS_TEXT_BASE        0x42C00000
 #define CONFIG_SYS_INIT_SP_ADDR     CONFIG_SYS_TEXT_BASE
 
-#define CONFIG_NR_DRAM_BANKS        4
+/* Ibox4418 has 4 bank of DRAM */
+#define CONFIG_NR_DRAM_BANKS    4
+#define SDRAM_BANK_SIZE         (512UL << 20UL) /* 512 MB */
+#define PHYS_SDRAM_1            (CONFIG_SYS_SDRAM_BASE)
+#define PHYS_SDRAM_1_SIZE       SDRAM_BANK_SIZE
+#define PHYS_SDRAM_2            (CONFIG_SYS_SDRAM_BASE + SDRAM_BANK_SIZE)
+#define PHYS_SDRAM_2_SIZE       SDRAM_BANK_SIZE
+#define PHYS_SDRAM_3            (CONFIG_SYS_SDRAM_BASE + (2 * SDRAM_BANK_SIZE))
+#define PHYS_SDRAM_3_SIZE       SDRAM_BANK_SIZE
+#define PHYS_SDRAM_4            (CONFIG_SYS_SDRAM_BASE + (3 * SDRAM_BANK_SIZE))
+#define PHYS_SDRAM_4_SIZE       SDRAM_BANK_SIZE
 
 #define CONFIG_SYS_LOAD_ADDR        0x48000000  /* kernel load address */
 
@@ -60,5 +71,6 @@
                                   (void*)CONFIG_SYS_SERIAL1 }
 
 #define CONFIG_BOARD_EARLY_INIT_F
+
 
 #endif

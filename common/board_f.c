@@ -950,7 +950,6 @@ static init_fnc_t init_sequence_f[] = {
 	init_func_spi,
 #endif
 	announce_dram_init,
-    led_on,
 	/* TODO: unify all these dram functions? */
 #if defined(CONFIG_ARM) || defined(CONFIG_X86) || defined(CONFIG_NDS32) || \
 		defined(CONFIG_MICROBLAZE) || defined(CONFIG_AVR32)
@@ -1039,6 +1038,7 @@ static init_fnc_t init_sequence_f[] = {
 	setup_board_part2,
 #endif
 	display_new_sp,
+    led_on,
 #ifdef CONFIG_SYS_EXTBDINFO
 	setup_board_extra,
 #endif
