@@ -11,6 +11,14 @@
 #include <asm/arch/clk.h>
 #include <asm/arch/clock.h>
 
+#ifndef CONFIG_SYS_DCACHE_OFF
+void enable_caches(void)
+{
+    /* Enable D-cache. I-cache is already enabled in start.S */
+    dcache_enable();
+}
+#endif
+
 /* Set clock for uart0 --50MHz, PLL0--*/
 static void clock_uart_init(void)
 {

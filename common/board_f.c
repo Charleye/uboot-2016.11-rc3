@@ -64,8 +64,6 @@
 #include <dm/root.h>
 #include <linux/compiler.h>
 
-#include <asm/arch/clock.h>
-
 /*
  * Pointer to initial global data area
  *
@@ -846,11 +844,6 @@ __weak int arch_cpu_init_dm(void)
 	return 0;
 }
 
-__weak int led_on(void)
-{
-    return 0;
-}
-
 static init_fnc_t init_sequence_f[] = {
 #ifdef CONFIG_SANDBOX
 	setup_ram_buf,
@@ -1038,7 +1031,6 @@ static init_fnc_t init_sequence_f[] = {
 	setup_board_part2,
 #endif
 	display_new_sp,
-    led_on,
 #ifdef CONFIG_SYS_EXTBDINFO
 	setup_board_extra,
 #endif
